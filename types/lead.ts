@@ -8,6 +8,7 @@ export interface Lead {
   property_title?: string;
   source: string;
   message?: string;
+  status: 'new' | 'contacted' | 'closed';
   created_at: string;
 }
 
