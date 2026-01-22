@@ -107,20 +107,44 @@ export default function PropertyDetailClient({
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'RealEstateListing',
     name: property.title,
     description: property.description,
-    image: property.images[0],
+    image: property.images[0] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=1200',
     offers: {
       '@type': 'Offer',
       price: property.price,
       priceCurrency: 'INR',
       availability: 'https://schema.org/InStock',
+      validFrom: property.created_at,
       seller: {
         '@type': 'Organization',
         name: 'Dreams Home',
+        url: 'https://realstate-nu-sepia.vercel.app',
       },
     },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: property.location,
+      addressLocality: property.city,
+      addressRegion: 'Uttar Pradesh',
+      addressCountry: 'IN',
+    },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 28.6139,
+      longitude: 77.2090,
+    },
+    numberOfRooms: property.bedrooms,
+    floorSize: {
+      '@type': 'QuantitativeValue',
+      value: property.area_sqft,
+      unitCode: 'FTK',
+    },
+    amenityFeature: property.amenities?.map((amenity) => ({
+      '@type': 'LocationFeatureSpecification',
+      name: amenity,
+    })),
   };
 
   return (

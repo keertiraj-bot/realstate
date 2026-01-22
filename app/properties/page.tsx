@@ -60,40 +60,82 @@ async function getProperties(searchParams: { [key: string]: string }): Promise<P
   }
 }
 
+function generatePropertiesListSchema(properties: Property[]) {
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'RealEstateListing',
+    name: 'Dreams Home - Available Properties',
+    description: `Browse ${properties.length} available properties including apartments, houses, villas, and commercial spaces.`,
+    url: 'https://realstate-nu-sepia.vercel.app/properties',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: properties.length,
+      itemListElement: properties.slice(0, 10).map((property, index) => ({
+        '@type': 'RealEstateListing',
+        position: index + 1,
+        name: property.title,
+        description: property.description,
+        url: `https://realstate-nu-sepia.vercel.app/properties/${property.id}`,
+        offers: {
+          '@type': 'Offer',
+          price: property.price,
+          priceCurrency: 'INR',
+          availability: 'https://schema.org/InStock',
+        },
+        image: property.images[0] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: property.city,
+          addressRegion: property.location,
+        },
+      })),
+    },
+  };
+
+  return schema;
+}
+
 export default async function PropertiesPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string };
 }) {
   const properties = await getProperties(searchParams);
+  const jsonLd = generatePropertiesListSchema(properties);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="container mx-auto px-4">
-        <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-            Available Properties
-          </h1>
-          <p className="text-gray-600">
-            {properties.length} properties found
-          </p>
-        </div>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="min-h-screen bg-gray-50 py-8">
+        <div className="container mx-auto px-4">
+          <header className="mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+              Available Properties
+            </h1>
+            <p className="text-gray-600">
+              {properties.length} properties found
+            </p>
+          </header>
 
-        <Suspense fallback={
-          <div>
-            <div className="mb-6">
-              <div className="h-10 bg-gray-200 rounded w-48 animate-pulse" />
+          <Suspense fallback={
+            <div>
+              <div className="mb-6">
+                <div className="h-10 bg-gray-200 rounded w-48 animate-pulse" />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[1, 2, 3, 4, 5, 6].map((i) => (
+                  <div key={i} className="bg-white rounded-xl h-80 animate-pulse" />
+                ))}
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="bg-white rounded-xl h-80 animate-pulse" />
-              ))}
-            </div>
-          </div>
-        }>
-          <PropertiesPageClient initialProperties={properties} />
-        </Suspense>
+          }>
+            <PropertiesPageClient initialProperties={properties} />
+          </Suspense>
+        </div>
       </div>
-    </div>
+    </>
   );
 }

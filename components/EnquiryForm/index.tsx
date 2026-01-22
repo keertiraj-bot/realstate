@@ -146,7 +146,7 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
         </p>
       )}
       
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
             Your Name *
@@ -159,9 +159,11 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
             placeholder="Enter your full name"
             disabled={isSubmitting}
             autoComplete="name"
+            aria-invalid={!!errors.name}
+            aria-describedby={errors.name ? 'name-error' : undefined}
           />
           {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+            <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">{errors.name.message}</p>
           )}
         </div>
 
@@ -179,10 +181,12 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
               disabled={isSubmitting}
               autoComplete="tel"
               maxLength={10}
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? 'phone-error' : undefined}
             />
           </div>
           {errors.phone && (
-            <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+            <p id="phone-error" className="text-red-500 text-sm mt-1" role="alert">{errors.phone.message}</p>
           )}
         </div>
 
@@ -198,9 +202,11 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
             placeholder="Enter your city"
             disabled={isSubmitting}
             autoComplete="address-level2"
+            aria-invalid={!!errors.city}
+            aria-describedby={errors.city ? 'city-error' : undefined}
           />
           {errors.city && (
-            <p className="text-red-500 text-sm mt-1">{errors.city.message}</p>
+            <p id="city-error" className="text-red-500 text-sm mt-1" role="alert">{errors.city.message}</p>
           )}
         </div>
 
@@ -218,9 +224,11 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
             min="100000"
             max="1000000000"
             step="100000"
+            aria-invalid={!!errors.budget}
+            aria-describedby={errors.budget ? 'budget-error' : undefined}
           />
           {errors.budget && (
-            <p className="text-red-500 text-sm mt-1">{errors.budget.message}</p>
+            <p id="budget-error" className="text-red-500 text-sm mt-1" role="alert">{errors.budget.message}</p>
           )}
         </div>
 
@@ -236,9 +244,11 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
             placeholder="Any specific requirements or questions?"
             disabled={isSubmitting}
             maxLength={1000}
+            aria-invalid={!!errors.message}
+            aria-describedby={errors.message ? 'message-error' : undefined}
           />
           {errors.message && (
-            <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+            <p id="message-error" className="text-red-500 text-sm mt-1" role="alert">{errors.message.message}</p>
           )}
         </div>
 
@@ -246,6 +256,7 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
           type="submit"
           disabled={isSubmitting || !isValid}
           className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          aria-busy={isSubmitting}
         >
           {isSubmitting ? (
             <>
