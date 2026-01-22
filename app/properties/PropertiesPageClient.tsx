@@ -1,11 +1,43 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Property } from '@/types/property';
 import Filters, { FilterState } from '@/components/Filters';
 import PropertiesList from './PropertiesList';
 import { trackFilterUsage } from '@/lib/analytics';
+
+function FiltersLoading() {
+  return (
+    <div className="mb-6">
+      <div className="flex flex-wrap gap-4 items-center animate-pulse">
+        <div className="h-10 bg-gray-200 rounded w-48" />
+        <div className="h-10 bg-gray-200 rounded w-40" />
+        <div className="h-10 bg-gray-200 rounded w-32" />
+        <div className="h-10 bg-gray-200 rounded w-56" />
+        <div className="h-10 bg-gray-200 rounded w-44" />
+      </div>
+    </div>
+  );
+}
+
+function PropertiesListLoading() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <div key={i} className="bg-white rounded-xl h-80 animate-pulse" />
+      ))}
+    </div>
+  );
+}
+
+function FiltersWrapper({ onFilterChange, isLoading }: { onFilterChange?: (filters: FilterState) => void; isLoading?: boolean }) {
+  return <Filters onFilterChange={onFilterChange} isLoading={isLoading} />;
+}
+
+function PropertiesListWrapper({ properties, isLoading }: { properties: Property[]; isLoading?: boolean }) {
+  return <PropertiesList properties={properties} isLoading={isLoading} />;
+}
 
 interface PropertiesPageClientProps {
   initialProperties: Property[];
@@ -58,8 +90,12 @@ export default function PropertiesPageClient({ initialProperties }: PropertiesPa
 
   return (
     <>
-      <Filters onFilterChange={handleFilterChange} isLoading={isLoading} />
-      <PropertiesList properties={properties} isLoading={isLoading} />
+      <Suspense fallback={<FiltersLoading />}>
+        <FiltersWrapper onFilterChange={handleFilterChange} isLoading={isLoading} />
+      </Suspense>
+      <Suspense fallback={<PropertiesListLoading />}>
+        <PropertiesListWrapper properties={properties} isLoading={isLoading} />
+      </Suspense>
     </>
   );
 }
