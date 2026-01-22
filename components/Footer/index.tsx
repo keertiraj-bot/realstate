@@ -30,7 +30,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://wa.me/1234567890"
+                href="https://wa.me/917084499128"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-[#25D366] rounded-full flex items-center justify-center hover:bg-[#20BD5A] transition-colors"
@@ -94,12 +94,12 @@ export default function Footer() {
                 <MapPin className="w-5 h-5 text-primary-500" />
                 <span>123 Business Park, Sector 62, Noida</span>
               </li>
-              <li className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-primary-500" />
-                <a href="tel:+911234567890" className="hover:text-primary-500 transition-colors">
-                  +91 1234567890
-                </a>
-              </li>
+                <li className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-primary-500" />
+                  <a href="tel:+917084499128" className="hover:text-primary-500 transition-colors">
+                    +91 7084499128
+                  </a>
+                </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary-500" />
                 <a href="mailto:info@dreamshome.com" className="hover:text-primary-500 transition-colors">

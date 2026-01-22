@@ -31,7 +31,7 @@ const contactInfo = [
   {
     icon: <Phone className="w-6 h-6" aria-hidden="true" />,
     title: 'Call Us',
-    details: ['+91 1234567890', '+91 0987654321'],
+    details: ['+91 7084499128', '+91 9876543210'],
   },
   {
     icon: <Mail className="w-6 h-6" aria-hidden="true" />,
@@ -51,7 +51,7 @@ const contactJsonLd = {
   name: 'Dreams Home',
   description: 'Your trusted partner in finding the perfect property.',
   url: 'https://realstate-nu-sepia.vercel.app',
-  telephone: '+91-1234567890',
+  telephone: '+91-7084499128',
   email: 'info@dreamshome.com',
   address: {
     '@type': 'PostalAddress',
@@ -293,7 +293,7 @@ export default function ContactPage() {
                     Prefer talking to someone? Chat with us on WhatsApp for quick responses!
                   </p>
                   <a
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/917084499128"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-whatsapp w-full flex items-center justify-center gap-2"

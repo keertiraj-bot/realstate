@@ -11,8 +11,9 @@ export default function Header() {
   const navLinks = [
     { href: '/', label: 'Home' },
     { href: '/properties', label: 'Properties' },
+    { href: '/about', label: 'About' },
+    { href: '/services', label: 'Services' },
     { href: '/contact', label: 'Contact' },
-    { href: '/admin/login', label: 'Admin' },
   ];
 
   return (
@@ -35,7 +36,7 @@ export default function Header() {
               </Link>
             ))}
             <a
-              href="https://wa.me/1234567890"
+              href="https://wa.me/917084499128"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-whatsapp text-sm"
@@ -73,7 +74,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <a
-                  href="https://wa.me/1234567890"
+                  href="https://wa.me/917084499128"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-whatsapp justify-center"
