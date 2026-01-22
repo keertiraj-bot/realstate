@@ -16,6 +16,10 @@ export interface Property {
   featured?: boolean;
   tag?: 'New' | 'Featured' | 'Ready';
   created_at: string;
+  possession_status?: 'Ready to Move' | 'Under Construction' | 'Upcoming';
+  verified?: boolean;
+  highlights?: string[];
+  price_per_sqft?: number;
 }
 
 export interface PropertyFormData {

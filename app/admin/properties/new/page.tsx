@@ -7,7 +7,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { supabase } from '@/lib/supabase';
-import { PropertyFormData } from '@/types/property';
 import Sidebar from '@/components/Admin/Sidebar';
 import ProtectedRoute from '@/components/Admin/ProtectedRoute';
 import { ArrowLeft, Upload, Loader2, X } from 'lucide-react';
@@ -36,6 +35,34 @@ const amenitiesList = [
   'School', 'Metro Station', 'Railway Station', 'Airport',
 ];
 
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60);
+}
+
+async function generateUniqueSlug(title: string, supabaseClient: any): Promise<string> {
+  let slug = generateSlug(title);
+  let counter = 1;
+  let uniqueSlug = slug;
+
+  while (true) {
+    const { data } = await supabaseClient
+      .from('properties')
+      .select('slug')
+      .eq('slug', uniqueSlug)
+      .single();
+
+    if (!data) {
+      return uniqueSlug;
+    }
+    uniqueSlug = `${slug}-${counter}`;
+    counter++;
+  }
+}
+
 export default function NewProperty() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -45,7 +72,6 @@ export default function NewProperty() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm<PropertyFormInputs>({
     resolver: zodResolver(propertySchema),
@@ -93,8 +119,11 @@ export default function NewProperty() {
 
     setLoading(true);
     try {
-      const propertyData: any = {
+      const slug = await generateUniqueSlug(data.title, supabase);
+
+      const propertyData = {
         ...data,
+        slug,
         amenities: selectedAmenities,
         images,
       };
@@ -103,11 +132,21 @@ export default function NewProperty() {
         .from('properties')
         .insert(propertyData);
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === '23505') {
+          toast.error('A property with similar title already exists. Please modify the title.');
+        } else {
+          throw error;
+        }
+        setLoading(false);
+        return;
+      }
       
       toast.success('Property added successfully');
       router.push('/admin/properties');
+      router.refresh();
     } catch (error) {
+      console.error('Error adding property:', error);
       toast.error('Failed to add property');
     } finally {
       setLoading(false);

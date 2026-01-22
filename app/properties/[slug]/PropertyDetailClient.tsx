@@ -15,6 +15,10 @@ import {
   Check,
   Phone,
   ArrowLeft,
+  Shield,
+  Clock,
+  Map,
+  Building,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Property } from '@/types/property';

@@ -36,6 +36,35 @@ const amenitiesList = [
   'School', 'Metro Station', 'Railway Station', 'Airport',
 ];
 
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .substring(0, 60);
+}
+
+async function generateUniqueSlugForUpdate(title: string, currentId: string, supabaseClient: any): Promise<string> {
+  let slug = generateSlug(title);
+  let counter = 1;
+  let uniqueSlug = slug;
+
+  while (true) {
+    const { data } = await supabaseClient
+      .from('properties')
+      .select('slug')
+      .eq('slug', uniqueSlug)
+      .neq('id', currentId)
+      .single();
+
+    if (!data) {
+      return uniqueSlug;
+    }
+    uniqueSlug = `${slug}-${counter}`;
+    counter++;
+  }
+}
+
 export default function EditProperty() {
   const router = useRouter();
   const params = useParams();
@@ -123,8 +152,11 @@ export default function EditProperty() {
 
     setSaving(true);
     try {
-      const propertyData: any = {
+      const slug = await generateUniqueSlugForUpdate(data.title, propertyId, supabase);
+
+      const propertyData = {
         ...data,
+        slug,
         amenities: selectedAmenities,
         images,
       };
@@ -134,11 +166,21 @@ export default function EditProperty() {
         .update(propertyData)
         .eq('id', propertyId);
 
-      if (error) throw error;
+      if (error) {
+        if (error.code === '23505') {
+          toast.error('A property with similar title already exists. Please modify the title.');
+        } else {
+          throw error;
+        }
+        setSaving(false);
+        return;
+      }
       
       toast.success('Property updated successfully');
       router.push('/admin/properties');
+      router.refresh();
     } catch (error) {
+      console.error('Error updating property:', error);
       toast.error('Failed to update property');
     } finally {
       setSaving(false);
