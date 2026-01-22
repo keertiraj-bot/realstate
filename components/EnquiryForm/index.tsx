@@ -5,9 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
-import { supabase } from '@/lib/supabase';
 import { LeadFormData } from '@/types/lead';
 import { trackEnquiryForm } from '@/lib/analytics';
+import { submitEnquiry } from '@/app/actions/submit-enquiry';
 
 const LEAD_COOKIE_NAME = 'lead_submitted';
 const LEAD_COOKIE_EXPIRY_DAYS = 7;
@@ -27,11 +27,11 @@ const enquirySchema = z.object({
 });
 
 interface EnquiryFormProps {
-  propertyId?: string;
+  propertySlug?: string;
   propertyTitle?: string;
 }
 
-export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormProps) {
+export default function EnquiryForm({ propertySlug, propertyTitle }: EnquiryFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -43,31 +43,6 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
     resolver: zodResolver(enquirySchema),
     mode: 'onChange',
   });
-
-  const checkDuplicateLead = useCallback(async (phone: string, propertyId?: string) => {
-    let query = supabase
-      .from('leads')
-      .select('id, created_at')
-      .eq('phone', phone)
-      .eq('source', propertyId ? 'property_enquiry' : 'general')
-      .order('created_at', { ascending: false })
-      .limit(1);
-
-    if (propertyId) {
-      query = query.eq('property_id', propertyId);
-    }
-
-    const { data } = await query;
-    
-    if (data && data.length > 0) {
-      const lastLead = data[0];
-      const hoursSinceLastLead = (Date.now() - new Date(lastLead.created_at).getTime()) / (1000 * 60 * 60);
-      if (hoursSinceLastLead < 24) {
-        return true;
-      }
-    }
-    return false;
-  }, []);
 
   const setLeadCookie = useCallback(() => {
     if (typeof document !== 'undefined') {
@@ -93,51 +68,13 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
     setIsSubmitting(true);
     
     try {
-      const isDuplicate = await checkDuplicateLead(data.phone, propertyId);
-      if (isDuplicate) {
-        toast.error('You have already enquired about this property recently.');
-        setIsSubmitting(false);
-        return;
-      }
+      const result = await submitEnquiry(data, propertySlug, propertyTitle);
 
-      const { error } = await supabase
-        .from('leads')
-        .insert({
-          name: data.name.trim(),
-          phone: data.phone.trim(),
-          city: data.city.trim(),
-          budget: data.budget,
-          property_id: propertyId || null,
-          message: data.message?.trim() || null,
-          source: propertyId ? 'property_enquiry' : 'general',
-        });
-
-      if (error) {
-        if (error.code === '23505') {
-          toast.error('You have already submitted this enquiry.');
-        } else if (process.env.NODE_ENV === 'development') {
-          console.log('Demo mode: Enquiry would be saved:', {
-            name: data.name,
-            phone: data.phone,
-            city: data.city,
-            budget: data.budget,
-            property_id: propertyId,
-            message: data.message,
-          });
-          setLeadCookie();
-          trackEnquiryForm({
-            formName: 'enquiry',
-            formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
-            success: true,
-          });
-          toast.success('Thank you! We will contact you soon. (Demo Mode)', {
-            duration: 5000,
-          });
-          reset();
-          setIsSubmitting(false);
-          return;
+      if (!result.success) {
+        if (result.error?.includes('already submitted')) {
+          toast.error(result.error);
         } else {
-          toast.error('Database error. Please try again.');
+          toast.error(result.error || 'Database error. Please try again.');
         }
         setIsSubmitting(false);
         return;
@@ -146,7 +83,7 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
       setLeadCookie();
       trackEnquiryForm({
         formName: 'enquiry',
-        formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
+        formLocation: propertySlug ? `Property: ${propertyTitle}` : 'General',
         success: true,
       });
       toast.success('Thank you! We will contact you soon.', {
@@ -156,7 +93,7 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
     } catch (error) {
       trackEnquiryForm({
         formName: 'enquiry',
-        formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
+        formLocation: propertySlug ? `Property: ${propertyTitle}` : 'General',
         success: false,
         errorMessage: error instanceof Error ? error.message : 'Unknown error',
       });

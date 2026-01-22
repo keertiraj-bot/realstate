@@ -633,7 +633,7 @@ export default function PropertyDetailClient({
               </div>
 
               <EnquiryForm
-                propertyId={property.id}
+                propertySlug={property.slug}
                 propertyTitle={property.title}
               />
             </div>
