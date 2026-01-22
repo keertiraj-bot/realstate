@@ -43,7 +43,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Link href={`/properties/${property.id}`} aria-label={`View ${property.title}`}>
+      <Link href={`/properties/${property.slug}`} aria-label={`View ${property.title}`}>
         <div className="relative h-56 overflow-hidden">
           <Image
             src={property.images[0] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800'}
@@ -68,7 +68,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
         <div className="flex items-start justify-between mb-3">
           <div>
             <h3 className="text-lg font-semibold text-gray-900 group-hover:text-primary-600 transition-colors line-clamp-1">
-              <Link href={`/properties/${property.id}`}>
+              <Link href={`/properties/${property.slug}`}>
                 {property.title}
               </Link>
             </h3>
@@ -122,7 +122,7 @@ export default function PropertyCard({ property }: PropertyCardProps) {
               </svg>
             </WhatsAppButton>
             <Link
-              href={`/properties/${property.id}`}
+              href={`/properties/${property.slug}`}
               className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors flex items-center gap-1"
               aria-label={`View ${property.title}`}
             >

@@ -67,6 +67,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
   const demoProperties: Property[] = [
     {
       id: 'demo-1',
+      slug: 'modern-3bhk-apartment-noida',
       title: 'Modern 3BHK Apartment',
       location: 'Sector 62, Noida',
       city: 'Noida',
@@ -84,6 +85,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
     },
     {
       id: 'demo-2',
+      slug: 'luxury-villa-garden-gurgaon',
       title: 'Luxury Villa with Garden',
       location: 'DLF Phase 4, Gurgaon',
       city: 'Gurgaon',
@@ -101,6 +103,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
     },
     {
       id: 'demo-3',
+      slug: 'commercial-office-space-cyber-city',
       title: 'Commercial Office Space',
       location: 'Cyber City, Gurgaon',
       city: 'Gurgaon',
@@ -118,6 +121,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
     },
     {
       id: 'demo-4',
+      slug: '2bhk-budget-apartment-noida',
       title: '2BHK Budget Apartment',
       location: 'Sector 45, Noida',
       city: 'Noida',
@@ -134,6 +138,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
     },
     {
       id: 'demo-5',
+      slug: 'penthouse-city-view-gurgaon',
       title: 'Penthouse with City View',
       location: 'Golf Course Road, Gurgaon',
       city: 'Gurgaon',
@@ -151,6 +156,7 @@ function getDemoProperties(searchParams: { [key: string]: string }): Property[] 
     },
     {
       id: 'demo-6',
+      slug: 'plot-construction-sector-128',
       title: 'Plot for Construction',
       location: 'Sector 128, Noida',
       city: 'Noida',
@@ -225,7 +231,7 @@ function generatePropertiesListSchema(properties: Property[]) {
         position: index + 1,
         name: property.title,
         description: property.description,
-        url: `https://realstate-nu-sepia.vercel.app/properties/${property.id}`,
+        url: `https://realstate-nu-sepia.vercel.app/properties/${property.slug}`,
         offers: {
           '@type': 'Offer',
           price: property.price,

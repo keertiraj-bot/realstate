@@ -8,7 +8,7 @@ export async function generateStaticParams() {
   try {
     const { data: properties } = await supabase
       .from('properties')
-      .select('id')
+      .select('slug')
       .eq('status', 'available')
       .limit(50);
 
@@ -17,7 +17,7 @@ export async function generateStaticParams() {
     }
 
     return properties.map((property) => ({
-      id: property.id,
+      slug: property.slug,
     }));
   } catch (error) {
     console.error('Error generating static params:', error);
@@ -25,12 +25,12 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
   try {
     const { data: property } = await supabase
       .from('properties')
-      .select('title, location, city, price, property_type, bedrooms, bathrooms, area_sqft, images')
-      .eq('id', params.id)
+      .select('title, location, city, price, property_type, bedrooms, bathrooms, area_sqft, images, slug')
+      .eq('slug', params.slug)
       .single();
 
     if (!property) {
@@ -59,7 +59,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
       openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: `${BASE_URL}/properties/${params.id}`,
+        url: `${BASE_URL}/properties/${property.slug}`,
         siteName: 'Dreams Home',
         title,
         description,
@@ -79,7 +79,7 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
         images: [imageUrl],
       },
       alternates: {
-        canonical: `${BASE_URL}/properties/${params.id}`,
+        canonical: `${BASE_URL}/properties/${property.slug}`,
       },
       robots: {
         index: true,
@@ -94,12 +94,12 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
   }
 }
 
-async function getProperty(id: string) {
+async function getProperty(slug: string) {
   try {
     const { data, error } = await supabase
       .from('properties')
       .select('*')
-      .eq('id', id)
+      .eq('slug', slug)
       .single();
 
     if (error) {
@@ -117,14 +117,14 @@ async function getProperty(id: string) {
 export default async function PropertyDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: { slug: string };
 }) {
-  const property = await getProperty(params.id);
+  const property = await getProperty(params.slug);
 
   if (!property) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center">
-        <p className="text-gray-500 mb-4">Property not found</p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+        <p className="text-gray-500 mb-4 text-lg">Property not found</p>
         <a href="/properties" className="btn-primary">
           Back to Properties
         </a>

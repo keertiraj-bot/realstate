@@ -8,6 +8,7 @@ import { Property } from '@/types/property';
 const featuredProperties: Property[] = [
   {
     id: '1',
+    slug: 'modern-3bhk-apartment',
     title: 'Modern 3BHK Apartment',
     location: 'Sector 62, Noida',
     city: 'Noida',
@@ -25,6 +26,7 @@ const featuredProperties: Property[] = [
   },
   {
     id: '2',
+    slug: 'luxury-villa-garden',
     title: 'Luxury Villa with Garden',
     location: 'DLF Phase 4, Gurgaon',
     city: 'Gurgaon',
@@ -42,6 +44,7 @@ const featuredProperties: Property[] = [
   },
   {
     id: '3',
+    slug: 'commercial-office-space',
     title: 'Commercial Office Space',
     location: 'Cyber City, Gurgaon',
     city: 'Gurgaon',
