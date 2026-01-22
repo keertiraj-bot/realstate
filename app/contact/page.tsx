@@ -10,6 +10,7 @@ import {
   MapPin, Phone, Mail, Clock, Send,
   MessageCircle, Building2
 } from 'lucide-react';
+import { trackEnquiryForm } from '@/lib/analytics';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -96,9 +97,20 @@ export default function ContactPage() {
 
       if (error) throw error;
       
+      trackEnquiryForm({
+        formName: 'contact',
+        formLocation: 'Contact Page',
+        success: true,
+      });
       toast.success('Message sent successfully! We will get back to you soon.');
       reset();
     } catch (error) {
+      trackEnquiryForm({
+        formName: 'contact',
+        formLocation: 'Contact Page',
+        success: false,
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      });
       toast.error('Failed to send message. Please try again.');
     }
   };

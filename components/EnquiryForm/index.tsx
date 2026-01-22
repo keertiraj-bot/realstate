@@ -7,6 +7,7 @@ import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { supabase } from '@/lib/supabase';
 import { LeadFormData } from '@/types/lead';
+import { trackEnquiryForm } from '@/lib/analytics';
 
 const LEAD_COOKIE_NAME = 'lead_submitted';
 const LEAD_COOKIE_EXPIRY_DAYS = 7;
@@ -121,11 +122,22 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
       }
 
       setLeadCookie();
+      trackEnquiryForm({
+        formName: 'enquiry',
+        formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
+        success: true,
+      });
       toast.success('Thank you! We will contact you soon.', {
         duration: 5000,
       });
       reset();
     } catch (error) {
+      trackEnquiryForm({
+        formName: 'enquiry',
+        formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
+        success: false,
+        errorMessage: error instanceof Error ? error.message : 'Unknown error',
+      });
       console.error('Error submitting enquiry:', error);
       toast.error('Something went wrong. Please try again.', {
         duration: 4000,

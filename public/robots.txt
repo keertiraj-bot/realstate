@@ -4,3 +4,4 @@ Disallow: /admin/
 Disallow: /api/
 
 Sitemap: https://realstate-nu-sepia.vercel.app/sitemap.xml
+

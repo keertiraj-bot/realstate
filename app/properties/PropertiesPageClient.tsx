@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Property } from '@/types/property';
 import Filters, { FilterState } from '@/components/Filters';
 import PropertiesList from './PropertiesList';
+import { trackFilterUsage } from '@/lib/analytics';
 
 interface PropertiesPageClientProps {
   initialProperties: Property[];
@@ -18,6 +19,16 @@ export default function PropertiesPageClient({ initialProperties }: PropertiesPa
 
   const handleFilterChange = useCallback(async (filters: FilterState) => {
     setIsLoading(true);
+    
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value && (key !== 'sortBy' || value !== 'newest')) {
+        trackFilterUsage({
+          filterType: key,
+          filterValue: value,
+          page: 1,
+        });
+      }
+    });
     
     try {
       const params = new URLSearchParams(searchParams.toString());

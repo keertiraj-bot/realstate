@@ -25,6 +25,7 @@ import {
   getPropertyWhatsAppMessage,
 } from '@/lib/whatsapp';
 import WhatsAppButton from '@/components/WhatsAppButton';
+import { trackPropertyView, trackCTAClick } from '@/lib/analytics';
 
 interface PropertyDetailClientProps {
   property: Property;
@@ -52,6 +53,16 @@ export default function PropertyDetailClient({
     );
     setIsFavorited(favorites.includes(property.id));
   }, [property.id]);
+
+  useEffect(() => {
+    trackPropertyView({
+      propertyId: property.id,
+      propertyTitle: property.title,
+      propertyType: property.property_type,
+      location: property.location,
+      price: property.price,
+    });
+  }, [property]);
 
   const handleFavorite = () => {
     const favorites = JSON.parse(
@@ -364,6 +375,8 @@ export default function PropertyDetailClient({
                 <div className="space-y-3">
                   <WhatsAppButton
                     message={whatsappMessage}
+                    propertyId={property.id}
+                    propertyTitle={property.title}
                     className="btn-whatsapp w-full flex items-center justify-center gap-2"
                   >
                     <svg
@@ -378,6 +391,7 @@ export default function PropertyDetailClient({
                   <a
                     href={`tel:+${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210'}`}
                     className="btn-primary w-full flex items-center justify-center gap-2"
+                    onClick={() => trackCTAClick({ ctaType: 'call', ctaLocation: `Property: ${property.title}`, propertyId: property.id })}
                   >
                     <Phone className="w-5 h-5" />
                     Call Now

@@ -1,17 +1,26 @@
 'use client';
 
 import { formatPhoneNumber } from '@/lib/whatsapp';
+import { trackCTAClick } from '@/lib/analytics';
 
 interface WhatsAppButtonProps {
   message: string;
   className?: string;
   children: React.ReactNode;
+  propertyId?: string;
+  propertyTitle?: string;
 }
 
-export default function WhatsAppButton({ message, className = '', children }: WhatsAppButtonProps) {
+export default function WhatsAppButton({ message, className = '', children, propertyId, propertyTitle }: WhatsAppButtonProps) {
   const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '919876543210';
   
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    trackCTAClick({
+      ctaType: 'whatsapp',
+      ctaLocation: propertyTitle ? `Property: ${propertyTitle}` : 'General',
+      propertyId,
+    });
+
     const isMobile = /mobile/i.test(navigator.userAgent);
     if (!isMobile && !navigator.share) {
       e.preventDefault();
