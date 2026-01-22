@@ -3,4 +3,4 @@ Allow: /
 Disallow: /admin/
 Disallow: /api/
 
-Sitemap: https://dreamshome.com/sitemap.xml
+Sitemap: https://realstate-nu-sepia.vercel.app/sitemap.xml

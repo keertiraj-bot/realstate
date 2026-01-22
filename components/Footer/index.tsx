@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { Building2, Phone, Mail, MapPin, Clock } from 'lucide-react';
 
