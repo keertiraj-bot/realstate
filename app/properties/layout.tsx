@@ -4,50 +4,35 @@ const BASE_URL = 'https://realstate-nu-sepia.vercel.app';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Dreams Home | Premium Real Estate Platform',
+    default: 'Properties | Dreams Home',
     template: '%s | Dreams Home',
   },
-  description: 'Find your dream home with Dreams Home. Browse premium properties in Noida, Gurgaon and Delhi NCR. Expert real estate services for buyers.',
-  keywords: ['real estate', 'property', 'homes', 'apartments', 'villas', 'buy property', 'rent property', 'Noida', 'Gurgaon', 'Delhi NCR'],
-  authors: [{ name: 'Dreams Home' }],
-  creator: 'Dreams Home',
-  publisher: 'Dreams Home',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
+  description: 'Browse our extensive collection of premium properties including apartments, villas, houses and commercial spaces in Noida, Gurgaon and Delhi NCR.',
+  keywords: ['properties', 'real estate listings', 'apartments for sale', 'villas for sale', 'houses for sale', 'commercial properties', 'Noida properties', 'Gurgaon properties'],
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: BASE_URL,
+    url: `${BASE_URL}/properties`,
     siteName: 'Dreams Home',
-    title: 'Dreams Home | Premium Real Estate Platform',
-    description: 'Find your dream home with Dreams Home. Browse premium properties.',
+    title: 'Properties | Dreams Home',
+    description: 'Browse our extensive collection of premium properties.',
     images: [
       {
-        url: `${BASE_URL}/images/og-image.jpg`,
+        url: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200',
         width: 1200,
         height: 630,
-        alt: 'Dreams Home - Premium Real Estate',
+        alt: 'Property Listings - Dreams Home',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Dreams Home | Premium Real Estate Platform',
-    description: 'Find your dream home with Dreams Home.',
-    images: [`${BASE_URL}/images/og-image.jpg`],
-    creator: '@dreamshome',
+    title: 'Properties | Dreams Home',
+    description: 'Browse our extensive collection of premium properties.',
+    images: ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200'],
   },
   alternates: {
-    canonical: BASE_URL,
+    canonical: `${BASE_URL}/properties`,
   },
 };
 
