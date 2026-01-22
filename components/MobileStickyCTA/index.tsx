@@ -3,18 +3,18 @@ import WhatsAppButton from '@/components/WhatsAppButton';
 
 export default function MobileStickyCTA() {
   return (
-    <div className="fixed bottom-0 left-0 right-0 md:hidden z-40">
-      <div className="bg-white border-t border-gray-200 p-4">
+    <div className="fixed bottom-0 left-0 right-0 md:hidden z-50">
+      <div className="bg-gray-900 border-t border-gray-800 p-4">
         <div className="flex gap-3">
           <a
             href="/properties"
-            className="btn-primary flex-1 text-center"
+            className="btn-primary flex-1 text-center font-semibold"
           >
-            Search Properties
+            Browse Properties
           </a>
           <WhatsAppButton
             message={getGeneralWhatsAppMessage()}
-            className="btn-whatsapp flex-1 flex items-center justify-center gap-2"
+            className="btn-whatsapp flex-1.5 flex items-center justify-center gap-2 font-semibold"
             aria-label="Chat on WhatsApp"
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -22,6 +22,20 @@ export default function MobileStickyCTA() {
             </svg>
             WhatsApp
           </WhatsAppButton>
+        </div>
+        <div className="flex justify-center gap-4 mt-2 text-xs text-gray-400">
+          <span className="flex items-center gap-1">
+            <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            Verified
+          </span>
+          <span className="flex items-center gap-1">
+            <svg className="w-3 h-3 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            No Brokerage
+          </span>
         </div>
       </div>
     </div>
