@@ -1,32 +1,65 @@
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 import { type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  const supabase = createServerComponentClient({
-    cookies: () => cookies(),
+  const response = NextResponse.next({
+    request: { headers: request.headers },
   });
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-  const protectedRoutes = ['/admin/dashboard', '/admin/properties', '/admin/leads'];
+  const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return request.cookies.getAll();
+      },
+      setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
+        cookiesToSet.forEach((cookie) => {
+          request.cookies.set(cookie.name, cookie.value);
+          response.cookies.set(cookie.name, cookie.value, cookie.options);
+        });
+      },
+    },
+  });
+
+  const { data: { session } } = await supabase.auth.getSession();
+
   const currentPath = request.nextUrl.pathname;
+  const isAdminRoute = currentPath.startsWith('/admin');
+  const isLoginRoute = currentPath === '/admin/login';
 
-  const isProtectedRoute = protectedRoutes.some(route => currentPath.startsWith(route));
-  const isLoginPage = currentPath === '/admin/login';
+  // Allow access to login page
+  if (isLoginRoute) {
+    if (session) {
+      const { data: { user } } = await supabase.auth.getUser();
+      const userMetadata = user?.user_metadata || {};
+      const role = (userMetadata.role as string) || '';
 
-  if (isProtectedRoute && !session) {
-    return NextResponse.redirect(new URL('/admin/login', request.url));
+      if (role === 'admin') {
+        return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+      }
+    }
+    return response;
   }
 
-  if (isLoginPage && session) {
-    return NextResponse.redirect(new URL('/admin/dashboard', request.url));
+  // Protect all admin routes
+  if (isAdminRoute && !isLoginRoute) {
+    if (!session) {
+      return NextResponse.redirect(new URL('/admin/login', request.url));
+    }
+
+    const { data: { user } } = await supabase.auth.getUser();
+    const userMetadata = user?.user_metadata || {};
+    const role = (userMetadata.role as string) || '';
+
+    if (role !== 'admin') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
