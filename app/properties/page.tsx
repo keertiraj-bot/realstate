@@ -1,9 +1,7 @@
 import { Suspense } from 'react';
 import { supabase } from '@/lib/supabase';
 import { Property } from '@/types/property';
-import PropertyCard from '@/components/PropertyCard';
-import Filters from '@/components/Filters';
-import PropertiesList from './PropertiesList';
+import PropertiesPageClient from './PropertiesPageClient';
 
 export const revalidate = 120;
 
@@ -81,18 +79,19 @@ export default async function PropertiesPage({
           </p>
         </div>
 
-        <Suspense fallback={null}>
-          <Filters />
-        </Suspense>
-
         <Suspense fallback={
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div key={i} className="bg-white rounded-xl h-80 animate-pulse" />
-            ))}
+          <div>
+            <div className="mb-6">
+              <div className="h-10 bg-gray-200 rounded w-48 animate-pulse" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-white rounded-xl h-80 animate-pulse" />
+              ))}
+            </div>
           </div>
         }>
-          <PropertiesList properties={properties} />
+          <PropertiesPageClient initialProperties={properties} />
         </Suspense>
       </div>
     </div>

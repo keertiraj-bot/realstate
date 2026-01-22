@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { X, Filter } from 'lucide-react';
+import { X, Filter, Loader2 } from 'lucide-react';
 
 interface FiltersProps {
   onFilterChange?: (filters: FilterState) => void;
+  isLoading?: boolean;
 }
 
 export interface FilterState {
@@ -42,12 +43,12 @@ const sortOptions = [
   { value: 'price_high', label: 'Price: High to Low' },
 ];
 
-export default function Filters({ onFilterChange }: FiltersProps) {
+export default function Filters({ onFilterChange, isLoading = false }: FiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [filters, setFilters] = useState<FilterState>({
+  const [localFilters, setLocalFilters] = useState<FilterState>({
     location: searchParams.get('location') || '',
     type: searchParams.get('type') || '',
     minPrice: searchParams.get('minPrice') || '',
@@ -56,9 +57,9 @@ export default function Filters({ onFilterChange }: FiltersProps) {
     sortBy: searchParams.get('sortBy') || 'newest',
   });
 
-  const updateFilters = (key: keyof FilterState, value: string) => {
-    const newFilters = { ...filters, [key]: value };
-    setFilters(newFilters);
+  const updateFilters = useCallback((key: keyof FilterState, value: string) => {
+    const newFilters = { ...localFilters, [key]: value };
+    setLocalFilters(newFilters);
     onFilterChange?.(newFilters);
     
     const params = new URLSearchParams(searchParams.toString());
@@ -67,30 +68,27 @@ export default function Filters({ onFilterChange }: FiltersProps) {
     } else {
       params.delete(key);
     }
-    router.push(`/properties?${params.toString()}`);
-  };
+    router.push(`/properties?${params.toString()}`, { scroll: false });
+  }, [localFilters, onFilterChange, router, searchParams]);
 
-  const clearFilters = () => {
-    setFilters({
+  const clearFilters = useCallback(() => {
+    const clearedFilters = {
       location: '',
       type: '',
       minPrice: '',
       maxPrice: '',
       bedrooms: '',
       sortBy: 'newest',
-    });
-    onFilterChange?.({
-      location: '',
-      type: '',
-      minPrice: '',
-      maxPrice: '',
-      bedrooms: '',
-      sortBy: 'newest',
-    });
-    router.push('/properties');
-  };
+    };
+    setLocalFilters(clearedFilters);
+    onFilterChange?.(clearedFilters);
+    router.push('/properties', { scroll: false });
+  }, [onFilterChange, router]);
 
-  const hasActiveFilters = Object.values(filters).some(v => v !== '' && v !== 'newest');
+  const hasActiveFilters = Object.entries(localFilters).some(([key, value]) => {
+    if (key === 'sortBy') return value !== 'newest';
+    return value !== '';
+  });
 
   return (
     <>
@@ -98,16 +96,19 @@ export default function Filters({ onFilterChange }: FiltersProps) {
         <div className="flex items-center justify-between mb-4">
           <button
             onClick={() => setIsMobileOpen(true)}
-            className="md:hidden flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
+            disabled={isLoading}
+            className="md:hidden flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Filter className="w-5 h-5" />
             Filters
+            {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
           </button>
           
           {hasActiveFilters && (
             <button
               onClick={clearFilters}
-              className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1"
+              disabled={isLoading}
+              className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1 disabled:opacity-50"
             >
               <X className="w-4 h-4" />
               Clear All
@@ -119,15 +120,17 @@ export default function Filters({ onFilterChange }: FiltersProps) {
           <input
             type="text"
             placeholder="Search location..."
-            value={filters.location}
+            value={localFilters.location}
             onChange={(e) => updateFilters('location', e.target.value)}
-            className="input-field w-48"
+            disabled={isLoading}
+            className="input-field w-48 disabled:bg-gray-100 disabled:cursor-not-allowed"
           />
 
           <select
-            value={filters.type}
+            value={localFilters.type}
             onChange={(e) => updateFilters('type', e.target.value)}
-            className="input-field w-40 appearance-none cursor-pointer"
+            disabled={isLoading}
+            className="input-field w-40 appearance-none cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
           >
             {propertyTypes.map((type) => (
               <option key={type.value} value={type.value}>
@@ -137,9 +140,10 @@ export default function Filters({ onFilterChange }: FiltersProps) {
           </select>
 
           <select
-            value={filters.bedrooms}
+            value={localFilters.bedrooms}
             onChange={(e) => updateFilters('bedrooms', e.target.value)}
-            className="input-field w-32 appearance-none cursor-pointer"
+            disabled={isLoading}
+            className="input-field w-32 appearance-none cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
           >
             {bedroomOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -152,24 +156,27 @@ export default function Filters({ onFilterChange }: FiltersProps) {
             <input
               type="number"
               placeholder="Min"
-              value={filters.minPrice}
+              value={localFilters.minPrice}
               onChange={(e) => updateFilters('minPrice', e.target.value)}
-              className="input-field w-28"
+              disabled={isLoading}
+              className="input-field w-28 disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
             <span className="text-gray-400">-</span>
             <input
               type="number"
               placeholder="Max"
-              value={filters.maxPrice}
+              value={localFilters.maxPrice}
               onChange={(e) => updateFilters('maxPrice', e.target.value)}
-              className="input-field w-28"
+              disabled={isLoading}
+              className="input-field w-28 disabled:bg-gray-100 disabled:cursor-not-allowed"
             />
           </div>
 
           <select
-            value={filters.sortBy}
+            value={localFilters.sortBy}
             onChange={(e) => updateFilters('sortBy', e.target.value)}
-            className="input-field w-44 appearance-none cursor-pointer"
+            disabled={isLoading}
+            className="input-field w-44 appearance-none cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
           >
             {sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
@@ -201,7 +208,7 @@ export default function Filters({ onFilterChange }: FiltersProps) {
                 </label>
                 <input
                   type="text"
-                  value={filters.location}
+                  value={localFilters.location}
                   onChange={(e) => updateFilters('location', e.target.value)}
                   className="input-field"
                   placeholder="Search location..."
@@ -213,7 +220,7 @@ export default function Filters({ onFilterChange }: FiltersProps) {
                   Property Type
                 </label>
                 <select
-                  value={filters.type}
+                  value={localFilters.type}
                   onChange={(e) => updateFilters('type', e.target.value)}
                   className="input-field appearance-none cursor-pointer"
                 >
@@ -230,7 +237,7 @@ export default function Filters({ onFilterChange }: FiltersProps) {
                   Bedrooms
                 </label>
                 <select
-                  value={filters.bedrooms}
+                  value={localFilters.bedrooms}
                   onChange={(e) => updateFilters('bedrooms', e.target.value)}
                   className="input-field appearance-none cursor-pointer"
                 >
@@ -249,14 +256,14 @@ export default function Filters({ onFilterChange }: FiltersProps) {
                 <div className="flex gap-2">
                   <input
                     type="number"
-                    value={filters.minPrice}
+                    value={localFilters.minPrice}
                     onChange={(e) => updateFilters('minPrice', e.target.value)}
                     className="input-field w-1/2"
                     placeholder="Min"
                   />
                   <input
                     type="number"
-                    value={filters.maxPrice}
+                    value={localFilters.maxPrice}
                     onChange={(e) => updateFilters('maxPrice', e.target.value)}
                     className="input-field w-1/2"
                     placeholder="Max"
@@ -269,7 +276,7 @@ export default function Filters({ onFilterChange }: FiltersProps) {
                   Sort By
                 </label>
                 <select
-                  value={filters.sortBy}
+                  value={localFilters.sortBy}
                   onChange={(e) => updateFilters('sortBy', e.target.value)}
                   className="input-field appearance-none cursor-pointer"
                 >
