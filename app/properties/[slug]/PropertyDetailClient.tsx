@@ -19,6 +19,12 @@ import {
   Clock,
   Map,
   Building,
+  TrendingUp,
+  Home,
+  Star,
+  DollarSign,
+  Target,
+  Zap,
 } from 'lucide-react';
 import Link from 'next/link';
 import { Property } from '@/types/property';
@@ -361,90 +367,205 @@ export default function PropertyDetailClient({
               </div>
 
               <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-4">
-                  Description
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <Home className="w-5 h-5 text-primary-600" />
+                  About This Property
                 </h2>
-                <p className="text-gray-600 leading-relaxed whitespace-pre-line">
-                  {property.description}
-                </p>
+                <div className="prose prose-gray max-w-none">
+                  <p className="text-gray-600 leading-relaxed whitespace-pre-line">
+                    {property.description}
+                  </p>
+                </div>
+                {property.property_type !== 'land' && (
+                  <div className="mt-6 p-4 bg-primary-50 rounded-xl border border-primary-100">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                        <DollarSign className="w-4 h-4 text-primary-600" />
+                      </div>
+                      <span className="font-semibold text-gray-900">Price per sqft</span>
+                    </div>
+                    <p className="text-2xl font-bold text-primary-600">
+                      ₹{Math.round(property.price / property.area_sqft).toLocaleString()} / sqft
+                    </p>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Total: {property.area_sqft.toLocaleString()} sqft × ₹{Math.round(property.price / property.area_sqft).toLocaleString()} = ₹{property.price.toLocaleString()}
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {property.amenities && property.amenities.length > 0 && (
-                <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
-                  <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Amenities & Features
-                  </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {property.amenities.map((amenity, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center gap-2 text-gray-700"
-                      >
-                        <Check className="w-5 h-5 text-green-500 flex-shrink-0" />
-                        <span>{amenity}</span>
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-primary-600" />
+                  Amenities & Features
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {property.amenities?.map((amenity, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                    >
+                      <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Check className="w-4 h-4 text-green-600" />
                       </div>
-                    ))}
+                      <span className="text-gray-700 text-sm">{amenity}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                  <Map className="w-5 h-5 text-primary-600" />
+                  Location Advantages
+                </h2>
+                <p className="text-gray-600 mb-6">
+                  Situated in the prime location of <span className="font-medium text-gray-900">{property.location}, {property.city}</span>, 
+                  this property offers excellent connectivity and access to essential services for modern living.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Building className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Metro Station</p>
+                      <p className="text-sm text-gray-500">Within 2 km - Direct metro connectivity to major business districts</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Check className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Schools & Education</p>
+                      <p className="text-sm text-gray-500">Multiple CBSE/ICSE schools within 3 km radius</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-5 h-5 text-red-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Hospitals & Healthcare</p>
+                      <p className="text-sm text-gray-500">Multi-specialty hospitals within 5 km</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="w-5 h-5 text-purple-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Business Hubs</p>
+                      <p className="text-sm text-gray-500">Major IT parks and commercial centers nearby</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <MapPin className="w-5 h-5 text-amber-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Shopping & Recreation</p>
+                      <p className="text-sm text-gray-500">Shopping malls, parks, and entertainment within 3 km</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl">
+                    <div className="w-10 h-10 bg-cyan-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-5 h-5 text-cyan-600" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Airport Connectivity</p>
+                      <p className="text-sm text-gray-500">45 km from Indira Gandhi International Airport</p>
+                    </div>
                   </div>
                 </div>
-              )}
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                  <Target className="w-5 h-5 text-primary-600" />
+                  Why Buy This Property?
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-100">
+                    <div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Check className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Prime Location</p>
+                      <p className="text-sm text-gray-600">
+                        Located in one of the most sought-after areas with excellent infrastructure and future appreciation potential
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+                    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">High Investment Value</p>
+                      <p className="text-sm text-gray-600">
+                        Properties in this area have shown consistent appreciation. Excellent rental demand for investors.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl border border-purple-100">
+                    <div className="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Home className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Modern Lifestyle</p>
+                      <p className="text-sm text-gray-600">
+                        Premium amenities, smart home features, and contemporary design for comfortable modern living.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100">
+                    <div className="w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center flex-shrink-0">
+                      <Shield className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">Trust & Transparency</p>
+                      <p className="text-sm text-gray-600">
+                        {property.verified ? 'Verified property with complete documentation and transparent pricing.' : 'Complete legal verification and transparent transaction process.'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-6 p-4 bg-primary-50 rounded-xl border border-primary-100">
+                  <div className="flex items-center gap-3">
+                    <Zap className="w-5 h-5 text-primary-600" />
+                    <div>
+                      <p className="font-semibold text-gray-900">Quick Possession</p>
+                      <p className="text-sm text-gray-600">
+                        {property.possession_status === 'Ready to Move' 
+                          ? 'Ready to move - Immediate possession available!' 
+                          : property.possession_status === 'Under Construction'
+                          ? 'Under construction - Expected completion soon'
+                          : 'Upcoming project - Book now for best pricing'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               {property.highlights && property.highlights.length > 0 && (
                 <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
                   <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Property Highlights
+                    Key Highlights
                   </h2>
-                  <div className="space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {property.highlights.map((highlight, index) => (
-                      <div key={index} className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                        <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
                           <Check className="w-4 h-4 text-primary-600" />
                         </div>
-                        <span className="text-gray-700">{highlight}</span>
+                        <span className="text-gray-700 text-sm">{highlight}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-
-              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
-                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                  <Map className="w-5 h-5 text-primary-600" />
-                  Location Advantages
-                </h2>
-                <p className="text-gray-600 mb-4">
-                  Located in the prime area of {property.location}, {property.city}, this property offers excellent connectivity and access to essential services.
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                    <Building className="w-5 h-5 text-primary-600 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-500">Nearest Metro</p>
-                      <p className="font-medium text-gray-900">Within 2 km</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                    <MapPin className="w-5 h-5 text-primary-600 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-500">Main Road Access</p>
-                      <p className="font-medium text-gray-900">Direct access</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                    <Clock className="w-5 h-5 text-primary-600 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-500">Airport Distance</p>
-                      <p className="font-medium text-gray-900">45 km away</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
-                    <Shield className="w-5 h-5 text-primary-600 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-gray-500">Hospital Nearby</p>
-                      <p className="font-medium text-gray-900">Within 3 km</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
                 <h2 className="text-xl font-bold text-gray-900 mb-4">
