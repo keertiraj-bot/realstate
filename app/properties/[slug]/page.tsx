@@ -239,8 +239,7 @@ export async function generateStaticParams() {
     return properties.map((property) => ({
       slug: property.slug,
     }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
+  } catch {
     return getAllDemoProperties().map((property) => ({
       slug: property.slug,
     }));
@@ -324,10 +323,8 @@ async function getProperty(slug: string): Promise<Property | null> {
       return demoProperty;
     }
 
-    console.error('Property not found:', slug);
     return null;
-  } catch (error) {
-    console.error('Error fetching property:', error);
+  } catch {
     const demoProperty = getDemoPropertyBySlug(slug);
     return demoProperty;
   }
