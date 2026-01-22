@@ -115,9 +115,31 @@ export default function EnquiryForm({ propertyId, propertyTitle }: EnquiryFormPr
       if (error) {
         if (error.code === '23505') {
           toast.error('You have already submitted this enquiry.');
+        } else if (process.env.NODE_ENV === 'development') {
+          console.log('Demo mode: Enquiry would be saved:', {
+            name: data.name,
+            phone: data.phone,
+            city: data.city,
+            budget: data.budget,
+            property_id: propertyId,
+            message: data.message,
+          });
+          setLeadCookie();
+          trackEnquiryForm({
+            formName: 'enquiry',
+            formLocation: propertyId ? `Property: ${propertyTitle}` : 'General',
+            success: true,
+          });
+          toast.success('Thank you! We will contact you soon. (Demo Mode)', {
+            duration: 5000,
+          });
+          reset();
+          setIsSubmitting(false);
+          return;
         } else {
-          throw error;
+          toast.error('Database error. Please try again.');
         }
+        setIsSubmitting(false);
         return;
       }
 
