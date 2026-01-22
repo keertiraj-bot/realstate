@@ -225,7 +225,7 @@ export default function PropertyDetailClient({
                     </>
                   )}
 
-                  <div className="absolute top-4 left-4 flex gap-2">
+                  <div className="absolute top-4 left-4 flex gap-2 flex-wrap">
                     {property.tag && (
                       <span
                         className={`px-3 py-1 rounded-full text-sm font-semibold ${
@@ -242,6 +242,24 @@ export default function PropertyDetailClient({
                     <span className="bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
                       {propertyTypeLabels[property.property_type]}
                     </span>
+                    {property.verified && (
+                      <span className="px-3 py-1 rounded-full text-sm font-semibold bg-green-500 text-white flex items-center gap-1">
+                        <Shield className="w-3 h-3" />
+                        Verified
+                      </span>
+                    )}
+                    {property.possession_status && (
+                      <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
+                        property.possession_status === 'Ready to Move'
+                          ? 'bg-green-500'
+                          : property.possession_status === 'Under Construction'
+                          ? 'bg-amber-500'
+                          : 'bg-blue-500'
+                      } text-white flex items-center gap-1`}>
+                        <Clock className="w-3 h-3" />
+                        {property.possession_status}
+                      </span>
+                    )}
                   </div>
 
                   <div className="absolute top-4 right-4 flex gap-2">
@@ -354,7 +372,7 @@ export default function PropertyDetailClient({
               {property.amenities && property.amenities.length > 0 && (
                 <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
                   <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Amenities
+                    Amenities & Features
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                     {property.amenities.map((amenity, index) => (
@@ -369,6 +387,96 @@ export default function PropertyDetailClient({
                   </div>
                 </div>
               )}
+
+              {property.highlights && property.highlights.length > 0 && (
+                <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                  <h2 className="text-xl font-bold text-gray-900 mb-4">
+                    Property Highlights
+                  </h2>
+                  <div className="space-y-3">
+                    {property.highlights.map((highlight, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <Check className="w-4 h-4 text-primary-600" />
+                        </div>
+                        <span className="text-gray-700">{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                  <Map className="w-5 h-5 text-primary-600" />
+                  Location Advantages
+                </h2>
+                <p className="text-gray-600 mb-4">
+                  Located in the prime area of {property.location}, {property.city}, this property offers excellent connectivity and access to essential services.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <Building className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-500">Nearest Metro</p>
+                      <p className="font-medium text-gray-900">Within 2 km</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <MapPin className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-500">Main Road Access</p>
+                      <p className="font-medium text-gray-900">Direct access</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <Clock className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-500">Airport Distance</p>
+                      <p className="font-medium text-gray-900">45 km away</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl">
+                    <Shield className="w-5 h-5 text-primary-600 flex-shrink-0" />
+                    <div>
+                      <p className="text-sm text-gray-500">Hospital Nearby</p>
+                      <p className="font-medium text-gray-900">Within 3 km</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8">
+                <h2 className="text-xl font-bold text-gray-900 mb-4">
+                  Property Overview
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                  <div className="text-center p-4 bg-gray-50 rounded-xl">
+                    <p className="text-2xl font-bold text-primary-600">
+                      ₹{Math.round(property.price / property.area_sqft).toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-500">per sqft</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded-xl">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {property.area_sqft.toLocaleString()}
+                    </p>
+                    <p className="text-sm text-gray-500">Total Area (sqft)</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded-xl">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {property.bedrooms > 0 ? property.bedrooms : '-'}
+                    </p>
+                    <p className="text-sm text-gray-500">Bedrooms</p>
+                  </div>
+                  <div className="text-center p-4 bg-gray-50 rounded-xl">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {property.bathrooms > 0 ? property.bathrooms : '-'}
+                    </p>
+                    <p className="text-sm text-gray-500">Bathrooms</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div className="space-y-6">
