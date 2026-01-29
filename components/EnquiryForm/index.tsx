@@ -87,16 +87,10 @@ export default function EnquiryForm({ propertySlug, propertyTitle }: EnquiryForm
         success: true,
       });
       
-      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-      if (supabaseUrl.includes('example.supabase.co')) {
-        toast.success('Thank you! We will contact you soon. (Demo Mode)', {
-          duration: 5000,
-        });
-      } else {
-        toast.success('Thank you! We will contact you soon.', {
-          duration: 5000,
-        });
-      }
+      // Always show demo mode for now
+      toast.success('Thank you! We will contact you soon. (Demo Mode)', {
+        duration: 5000,
+      });
       reset();
     } catch (error) {
       trackEnquiryForm({

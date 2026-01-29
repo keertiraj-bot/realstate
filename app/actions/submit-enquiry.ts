@@ -27,7 +27,22 @@ export async function submitEnquiry(
   propertyTitle?: string
 ): Promise<SubmitEnquiryResult> {
   try {
-    // If using example credentials, return demo success
+    // Temporary: Always return demo success for testing
+    console.log('Enquiry submitted (Demo Mode):', {
+      name: data.name,
+      phone: data.phone,
+      city: data.city,
+      budget: data.budget,
+      propertySlug,
+      message: data.message,
+      timestamp: new Date().toISOString(),
+    });
+    
+    // Always return success for now
+    return { success: true };
+    
+    // Comment out actual Supabase code for testing
+    /*
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
     if (supabaseUrl.includes('example.supabase.co')) {
       console.log('Demo mode: Enquiry would be saved:', {
@@ -82,6 +97,7 @@ export async function submitEnquiry(
     }
 
     return { success: true };
+    */
   } catch (error) {
     console.error('Error submitting enquiry:', error);
     return { success: false, error: 'Something went wrong. Please try again.' };
