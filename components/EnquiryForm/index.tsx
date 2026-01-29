@@ -12,7 +12,7 @@ import { submitEnquiry } from '@/app/actions/submit-enquiry';
 const LEAD_COOKIE_NAME = 'lead_submitted';
 const LEAD_COOKIE_EXPIRY_DAYS = 7;
 
-const phoneRegex = /^[6-9]\d{9}$/;
+const phoneRegex = /^\d{10}$/;
 
 const enquirySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters').max(100, 'Name is too long'),
@@ -86,9 +86,16 @@ export default function EnquiryForm({ propertySlug, propertyTitle }: EnquiryForm
         formLocation: propertySlug ? `Property: ${propertyTitle}` : 'General',
         success: true,
       });
-      toast.success('Thank you! We will contact you soon.', {
-        duration: 5000,
-      });
+      
+      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('example.supabase.co')) {
+        toast.success('Thank you! We will contact you soon. (Demo Mode)', {
+          duration: 5000,
+        });
+      } else {
+        toast.success('Thank you! We will contact you soon.', {
+          duration: 5000,
+        });
+      }
       reset();
     } catch (error) {
       trackEnquiryForm({

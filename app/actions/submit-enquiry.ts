@@ -1,7 +1,15 @@
 'use server';
 
 import { createClient } from '@supabase/supabase-js';
-import { LeadFormData } from '@/types/lead';
+// Define types locally to avoid import issues
+interface LeadFormData {
+  name: string;
+  phone: string;
+  city: string;
+  budget: number;
+  property_id?: string;
+  message?: string;
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -19,6 +27,19 @@ export async function submitEnquiry(
   propertyTitle?: string
 ): Promise<SubmitEnquiryResult> {
   try {
+    // If using example credentials, return demo success
+    if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('example.supabase.co')) {
+      console.log('Demo mode: Enquiry would be saved:', {
+        name: data.name,
+        phone: data.phone,
+        city: data.city,
+        budget: data.budget,
+        propertySlug,
+        message: data.message,
+      });
+      return { success: true };
+    }
+
     if (!data.name || !data.phone || !data.city || !data.budget) {
       return { success: false, error: 'Missing required fields' };
     }

@@ -1,0 +1,264 @@
+VIDEO PRODUCTION SCRIPT: BUYER SEARCH JOURNEY
+
+══════════════════════════════════════════════════════
+VIDEO SPECIFICATIONS
+══════════════════════════════════════════════════════
+Duration: 45-60 seconds
+Format: 16:9 horizontal
+Style: Professional, modern, clean animations
+Target Audience: Real estate professionals, property marketers
+
+══════════════════════════════════════════════════════
+SHOT LIST & TIMING
+══════════════════════════════════════════════════════
+
+[0:00-0:05] OPENING SCENE
+─────────────────────────────────────────────────────
+VISUAL:
+- Young professional (25-35 years) sitting at modern desk
+- Warm, natural lighting from window
+- Laptop open with Google homepage visible
+- Coffee cup, plant in background for warmth
+
+AUDIO:
+- Soft, contemporary background music (upbeat but not distracting)
+- Ambient office sounds (keyboard clicks, subtle hum)
+
+ANIMATION:
+- Slow push-in on laptop screen
+
+══════════════════════════════════════════════════════
+
+[0:05-0:15] SEARCH INTERACTION
+─────────────────────────────────────────────────────
+VISUAL:
+- Close-up of hands on keyboard
+- Screen capture of Google search experience
+
+SCREEN CONTENT:
+- Google search bar with cursor blinking
+- User types: "Property near me"
+- Auto-complete dropdown appears showing:
+  • "Property near me" (selected)
+  • "Flats near me" ⭐
+  • "Apartments for sale near me"
+  • "Real estate near me"
+  • "Houses for sale near me"
+
+- User clicks "Property near me"
+
+AUDIO:
+- Keyboard typing sounds
+- Soft click sounds for each action
+
+ANIMATION:
+- Typewriter effect for search text
+- Smooth dropdown animation
+- Button press effect on click
+
+══════════════════════════════════════════════════════
+
+[0:15-0:35] SEARCH RESULTS REVEAL
+─────────────────────────────────────────────────────
+VISUAL:
+- Full Google Search Results Page (SERP)
+
+UPPER SECTION - Google Maps:
+┌─────────────────────────────────────────────────┐
+│ 🗺️  Map View                                    │
+│                                                 │
+│  ● ● ● ● (property pins on map)                 │
+│      📍 24 properties found                     │
+│                                                 │
+│  [Sidebar with quick listings]                  │
+│  ★4.2  Modern Apartment                         │
+│        2 BHK • $350,000                         │
+│        0.5 miles away                           │
+│                                                 │
+│  ★4.5  Luxury Condo                             │
+│        3 BHK • $550,000                         │
+│        1.2 miles away                           │
+└─────────────────────────────────────────────────┘
+
+LOWER SECTION - Organic Results:
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│  🏠 RealEstateHub.com                           │
+│  [Sponsored]                                    │
+│  500+ Properties Near You • Virtual Tours       │
+│  ★★★★★ (2,340 reviews)                         │
+│  www.realestatehub.com                          │
+│                                                 │
+│  ─────────────────────────────────────────────  │
+│                                                 │
+│  🏠 PremiumProperties.com                       │
+│  Luxury Apartments & Flats in Your Area         │
+│  ★★★★★ (890 reviews)                           │
+│  www.premiumproperties.com                      │
+│                                                 │
+│  ─────────────────────────────────────────────  │
+│                                                 │
+│  🏠 CityHomes Real Estate                       │
+│  Trusted Real Estate Agents Near You            │
+│  ★★★★☆ (1,567 reviews)                         │
+│  www.cityhomes.com                              │
+│                                                 │
+│  ─────────────────────────────────────────────  │
+│                                                 │
+│  🏠 NestFinder App                              │
+│  Find Your Dream Home Near You                  │
+│  ★★★★★ (5,100+ reviews)                        │
+│  Play Store • App Store                        │
+│                                                 │
+└─────────────────────────────────────────────────┘
+
+ANIMATION SEQUENCE:
+1. Page loads with smooth transition
+2. Map section slides in from top
+3. Organic results fade in below
+4. MOUSE CURSOR appears
+5. Cursor moves to Maps section (brief hover)
+   - Map pins pulse slightly
+   - "Limited info" label appears over map
+6. Cursor moves to website results
+   - GLOW EFFECT on website listings
+   - "Detailed info" label appears over websites
+7. Red animated CIRCLE highlights website results
+8. Arrow animation shows click on RealEstateHub.com
+
+DATA OVERLAY:
+- Animated stats appear on right side:
+  📊 68% of buyers click websites
+  📊 32% use map features only
+  📊 Websites show 5x more details
+
+AUDIO:
+- Subtle "whoosh" sound for page load
+- Click sound for search
+- Sparkle/chime sound for data overlay
+
+══════════════════════════════════════════════════════
+
+[0:35-0:50] COMPARISON TRANSITION
+─────────────────────────────────────────────────────
+VISUAL:
+- Screen divides into two panels
+
+LEFT PANEL - Google Maps:
+- Static map view
+- Annotation: "Limited Information"
+- Shows only: name, rating, distance, basic price
+- Blurred/limited appearance
+
+RIGHT PANEL - Property Website:
+- Dynamic website homepage
+- Full navigation menu visible
+- Search filters, property listings, photos
+- Annotation: "Complete Information"
+- Vibrant, detailed appearance
+
+ARROWS show flow from Maps → Websites
+Text: "Buyers seek comprehensive details"
+
+AUDIO:
+- Transition whoosh sound
+- Positive, trusting music cue
+
+══════════════════════════════════════════════════════
+
+[0:50-0:60] WEBSITE BENEFITS SHOWCASE
+─────────────────────────────────────────────────────
+VISUAL:
+- Animated icons appear around website panel:
+
+┌─────────────────────────────────────────────────┐
+│                  🏠                             │
+│            High-Quality                         │
+│           Property Photos                       │
+│                                               │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐    │
+│  │ 📐     │    │ 💰     │    │ 🎥     │    │
+│  │ Floor  │    │ Price  │    │ Virtual │    │
+│  │ Plans  │    │Breakdown│   │  Tours  │    │
+│  └─────────┘    └─────────┘    └─────────┘    │
+│                                               │
+│  ┌─────────┐    ┌─────────┐    ┌─────────┐    │
+│  │ 📍     │    │ 📞     │    │ 🔍     │    │
+│  │Neighborhood│ │ Agent  │    │Compare │    │
+│  │  Guide  │    │Contact │    │Tools   │    │
+│  └─────────┘    └─────────┘    └─────────┘    │
+│                                               │
+└─────────────────────────────────────────────────┘
+
+Each icon animates in sequence with labels:
+✓ Floor Plans & Layouts
+✓ Price Breakdown & EMI Calculator
+✓ Virtual Tours & Video Walkthroughs
+✓ Neighborhood Information
+✓ Agent Contact & Scheduling
+✓ Property Comparison Tools
+
+AUDIO:
+- Positive, uplifting music crescendo
+- Soft "ding" sound for each checkmark
+
+══════════════════════════════════════════════════════
+
+[0:60-0:65] BUYER SATISFACTION
+─────────────────────────────────────────────────────
+VISUAL:
+- Return to buyer at desk
+- Smile on face
+- Thumbs up gesture
+- Browser shows property website with detailed listing
+- Buyer scrolling through content
+
+TEXT OVERLAY:
+"Buyers trust websites for complete property information"
+
+AUDIO:
+- Satisfied sigh/happy music
+- Natural ambient sounds continue
+
+══════════════════════════════════════════════════════
+
+[0:65-0:70] CLOSING MESSAGE
+─────────────────────────────────────────────────────
+VISUAL:
+- Clean background
+- Bold text fades in:
+
+"When buyers search, they click websites
+for complete information"
+
+- Company logo placeholder appears below
+
+AUDIO:
+- Music builds to conclusion
+- Brief silence
+
+══════════════════════════════════════════════════════
+
+[0:70-0:75] END CARD
+─────────────────────────────────────────────────────
+VISUAL:
+- Call to action with contact information
+- Website URL
+- Social media icons
+- "Subscribe for more tips" prompt
+
+AUDIO:
+- Final note of music
+- Soft "thank you" sound effect
+
+══════════════════════════════════════════════════════
+END OF VIDEO SCRIPT
+══════════════════════════════════════════════════════
+
+NOTES FOR PRODUCTION:
+- Use screen recording software for authentic Google interface
+- Consider using professional voiceover for accessibility
+- All statistics should be verified or presented as estimates
+- Color scheme should match brand guidelines
+- Consider adding captions for silent viewing
+- Test on mobile format as well (vertical video variant)

@@ -1,0 +1,60 @@
+SCENE 1: BUYER'S SEARCH JOURNEY
+
+[OPENING SCENE]
+- Show person sitting at desk with laptop
+- Camera zooms in on screen
+
+[SEARCH DEMONSTRATION]
+- Buyer types in Google search bar: "Property near me"
+- Search suggestions appear: "Flats near me", "Apartments for sale near me", "Real estate near me"
+- Buyer clicks on "Property near me"
+
+[GOOGLE SEARCH RESULTS PAGE]
+Screen shows:
+1. Google Maps section at top:
+   - Map with property pins
+   - "3 results in your area"
+   - Listings with star ratings
+   - Quick info like "2 BHK - $450,000"
+
+2. Regular search results below:
+   - Property portal websites (e.g., Zillow, Realtor.com, MagicBricks)
+   - Real estate agent websites
+   - Developer websites
+   - Blog posts and guides
+
+[MOUSE MOVEMENT ANIMATION]
+- Animated cursor moves across results
+- Cursor hovers briefly over map listings
+- Cursor stops on website results
+- CIRCLE EFFECT highlights website listings
+- Arrow animation shows click on a property portal website
+
+[DATA OVERLAY]
+Text appears:
+"75% of buyers click on websites for detailed listings"
+"Only 25% engage with map-based results"
+
+[TRANSITION]
+- Screen splits showing:
+  Left side: Google Maps (limited info shown)
+  Right side: Property website (comprehensive details shown)
+
+[WEBSITE FEATURES HIGHLIGHTED]
+- Large photo galleries
+- Floor plans
+- Price breakdowns
+- Agent contact forms
+- Virtual tours
+- Neighborhood guides
+- Comparison tools
+
+[CLOSING SCENE]
+- Buyer satisfied, nodding
+- Text overlay: "When buyers search, they click websites for complete information"
+- Company logo/logo placeholder
+
+[END CARD]
+- Call to action
+- Contact information
+- Website URL
