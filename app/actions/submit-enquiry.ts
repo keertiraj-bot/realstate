@@ -28,7 +28,8 @@ export async function submitEnquiry(
 ): Promise<SubmitEnquiryResult> {
   try {
     // If using example credentials, return demo success
-    if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('example.supabase.co')) {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+    if (supabaseUrl.includes('example.supabase.co')) {
       console.log('Demo mode: Enquiry would be saved:', {
         name: data.name,
         phone: data.phone,

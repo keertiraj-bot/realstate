@@ -87,7 +87,8 @@ export default function EnquiryForm({ propertySlug, propertyTitle }: EnquiryForm
         success: true,
       });
       
-      if (process.env.NEXT_PUBLIC_SUPABASE_URL?.includes('example.supabase.co')) {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+      if (supabaseUrl.includes('example.supabase.co')) {
         toast.success('Thank you! We will contact you soon. (Demo Mode)', {
           duration: 5000,
         });
